@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>卖家订单详情</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div id="wrapper" class="toggled">
+    <!-- 边栏sidebar -->
+    <nav th:replace="common/nav :: nav"></nav>
+
+    <!--主要内容content-->
+    <div id="page-content-wrapper">
+        <div class="container-fluid">
+            <div class="row clearfix">
+                <div class="col-md-4 column" th:inline="text">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>订单id</th>
+                            <th>订单总金额</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>[[${orderDTO.orderId}]]</td>
+                            <td>[[${orderDTO.orderAmount}]]</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 订单详情表数据 -->
+                <div class="col-md-11 column">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>商品id</th>
+                            <th>商品名称</th>
+                            <th>价格</th>
+                            <th>数量</th>
+                            <th>总额</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr th:each="orderDetail : ${orderDTO.orderDetailList}">
+                            <td th:text="${orderDetail.productId}"></td>
+                            <td th:text="${orderDetail.productName}"></td>
+                            <td th:text="${orderDetail.productPrice}"></td>
+                            <td th:text="${orderDetail.productQuantity}"></td>
+                            <td th:text="${orderDetail.productQuantity * orderDetail.productPrice}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 操作 -->
+                <div class="col-md-11 column" th:if="${orderDTO.orderStatus == 0}">
+                    <a th:href="@{/seller/order/finish/{orderId}(orderId=${orderDTO.orderId})}" type="button" class="btn btn-default btn-primary">完结订单</a>
+                    <a th:href="@{/seller/order/cancel/{orderId}(orderId=${orderDTO.orderId})}" type="button" class="btn btn-default btn-danger">取消订单</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

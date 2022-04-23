@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>类目列表</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div id="wrapper" class="toggled">
+
+
+    <!-- 边栏sidebar -->
+    <nav th:replace="common/nav :: nav"></nav>
+
+    <!-- 主要内容 content-->
+    <div id="page-content-wrapper">
+        <div class="container-fluid">
+            <div class="row clearfix">
+                <div class="col-md-11 column">
+                    <table class="table table-hover table-bordered">
+                        <thead>
+                        <tr>
+                            <th>类目Id</th>
+                            <th>名称</th>
+                            <th>类目编号</th>
+                            <th>创建时间</th>
+                            <th>修改时间</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr th:each="category : ${categoryList}">
+                            <td th:text="${category.categoryId}"></td>
+                            <td th:text="${category.categoryName}"></td>
+                            <td th:text="${category.categoryType}"></td>
+                            <td th:text="${#dates.format(category.createTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                            <td th:text="${#dates.format(category.updateTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                            <td>
+                                <a th:href="@{'/seller/category/index?categoryId=' + ${category.categoryId}}">修改</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

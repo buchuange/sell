@@ -1,0 +1,45 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /sell
+
+spring:
+  application:
+    name: sell-service
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/sell?characterEncoding=utf-8&useSSL=false
+    username: root
+    password: 100322
+  jpa:
+    show-sql: true
+  jackson:
+    default-property-inclusion: non_null
+  redis:
+    host: 192.168.206.129
+    port: 6380
+
+wechat:
+  # 公众账号, 授权
+  mpAppId: wxba1faa1552caad36
+  mpAppSecret: faac12722f965d9f4d7430ae004605c9
+
+  # 支付/商户号
+  #mpAppId: wx3e6b9f1c5a7ff034
+  mchId: 1614433647
+  mchKey: Aa111111111122222222223333333333
+
+  # 发起支付不需要证书, 退款需要
+  keyPath: doc\h5.p12
+  notifyUrl: http://ajytx2.natappfree.cc/sell/pay/asyncNotify
+
+  # 开放平台
+  openAppId: wx6ad144e54af67d87
+  openAppSecret: 91a2ff6d38a2bbccfb7e9f9079108e2e
+
+  # 模板Id
+  templateId:
+    orderStatus: iWM0qkw4zD9foHanY8ZkgS-1f7nMxdnesHtQWkxRxeY
+
+service:
+  url: http://x98igc.natappfree.cc

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>商品列表</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div id="wrapper" class="toggled">
+
+
+    <!-- 边栏sidebar -->
+    <nav th:replace="common/nav :: nav"></nav>
+
+    <!-- 主要内容 content-->
+    <div id="page-content-wrapper">
+        <div class="container-fluid">
+            <div class="row clearfix">
+                <div class="col-md-11 column">
+                    <table class="table table-hover table-bordered">
+                        <thead>
+                        <tr>
+                            <th>商品Id</th>
+                            <th>名称</th>
+                            <th>图片</th>
+                            <th>单价</th>
+                            <th>库存</th>
+                            <th>描述</th>
+                            <th>类目</th>
+                            <th>创建时间</th>
+                            <th>修改时间</th>
+                            <th colspan="2">操作</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr th:each="productInfo : ${productInfoPage.content}"
+                            th:classappend="${productInfo.productStatus == 0 ? 'success' : 'warning'}">
+                            <td th:text="${productInfo.productId}"></td>
+                            <td th:text="${productInfo.productName}"></td>
+                            <td><img height="100" width="100" th:src="@{${productInfo.productIcon}}" alt=""></td>
+                            <td th:text="${productInfo.productPrice}"></td>
+                            <td th:text="${productInfo.productStock}"></td>
+                            <td th:text="${productInfo.productDescription}"></td>
+                            <td th:text="${productInfo.categoryType}"></td>
+                            <td th:text="${#dates.format(productInfo.createTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                            <td th:text="${#dates.format(productInfo.updateTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                            <td>
+                                <a th:href="@{'/seller/product/index?productId=' + ${productInfo.productId}}">修改</a>
+                            </td>
+                            <th:block th:switch="${productInfo.productStatus == 0}">
+                                <td th:case="true">
+                                    <a th:href="@{/seller/product/off_sale/{productId}(productId=${productInfo.productId})}">下架</a>
+                                </td>
+                                <td th:case="false" class="disabled">
+                                    <a th:href="@{/seller/product/on_sale/{productId}(productId=${productInfo.productId})}">上架</a>
+                                </td>
+                            </th:block>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="col-md-11 column">
+                    <ul class="pagination pull-right">
+                        <th:block th:switch="${currentPage != 1}">
+                            <li th:case="true">
+                                <a th:href="@{'/seller/product/list?page=' + ${currentPage - 1}}">上一页</a>
+                            </li>
+                            <li th:case="false" class="disabled">
+                                <a th:href="@{'/seller/product/list?page=' + ${currentPage - 1}}">上一页</a>
+                            </li>
+                        </th:block>
+                        <!--遍历条数-->
+                        <li th:each="i:${#numbers.sequence(1, productInfoPage.totalPages)}">
+                            <a th:href="@{'/seller/product/list?page=' + ${i}}" th:text="${i}" th:if="${i != currentPage}"></a>
+                            <span style="font-weight: bold;background: #6faed9;" th:if="${i == currentPage}" th:text="${i}" ></span>
+                        </li>
+                        <th:block th:switch="${currentPage != productInfoPage.totalPages}">
+                            <li th:case="true">
+                                <a th:href="@{'/seller/product/list?page=' + ${currentPage + 1}}">下一页</a>
+                            </li>
+                            <li th:case="false" class="disabled">
+                                <a th:href="@{'/seller/product/list?page=' + ${currentPage + 1}}">下一页</a>
+                            </li>
+                        </th:block>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
